@@ -1,0 +1,21 @@
+version: '2.3'
+services:
+  pred:
+    container_name: tfs
+    image: tensorflow/serving
+    volumes:
+        - type: bind
+          source: .\room\
+          target: /models/room
+    ports:
+      - "8501:8501"
+    environment:
+      - MODEL_NAME=room
+    
+  api:
+    container_name: api
+    build: api
+    ports:
+      - "8000:8000"
+    links:
+      - pred
